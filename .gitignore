@@ -1,0 +1,99 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+
+# Model files (large files)
+*.h5
+*.pkl
+*.pth
+*.onnx
+
+# Logs
+*.log
+
+# Qdrant data
+qdrant_storage/
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Node modules (Frontend)
+Frontend/node_modules/
+Frontend/.next/
+Frontend/out/
+Frontend/build/
+
+# Package managers
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Temporary files
+*.tmp
+*.temp
+test_agent.html
+
+# Temporary documentation files
+CHAY_NHANH.md
+FINAL_FIX_SOURCES_URL.md
+FIX_*.md
+QUICK_*.md
+FRONTEND_SETUP_GUIDE.md
+HUONG_DAN_CHAY.md
+GIT_COMMIT_STRATEGY.md
+auto_commit.bat
+cleanup_repo.bat
+start_servers.bat
+
+# Test files
+check_qdrant_metadata.py
+test_api.py
+test.py
+test1.pdf
+Cardiomegally.png
+
+# Backup files
+*.bak
+*.backup
+*_backup.py
+src/models/model_simplified.py
