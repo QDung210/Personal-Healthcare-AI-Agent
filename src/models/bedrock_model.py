@@ -14,6 +14,7 @@ from pydantic_ai.settings import ModelSettings
 from pydantic_ai.usage import RunUsage
 import boto3
 import json
+import re
 from typing import Any
 
 
@@ -70,7 +71,10 @@ class BedrockCustomModel(Model):
         
         # Parse response
         result = json.loads(response['body'].read())
-        text = result['choices'][0]['text'].strip()
+        raw_text = result['choices'][0]['text'].strip()
+        
+        # CRITICAL FIX: Remove tool_call tags from output
+        text = self._clean_tool_calls(raw_text)
         
         # Create RunUsage
         usage = RunUsage(
@@ -88,6 +92,23 @@ class BedrockCustomModel(Model):
         model_response.usage = usage
         
         return model_response
+    
+    def _clean_tool_calls(self, text: str) -> str:
+        """
+        Remove <tool_call> tags and their content from the text.
+        This prevents the model from leaking internal tool call format to users.
+        """
+        # Remove <tool_call>...</tool_call> blocks
+        cleaned = re.sub(r'<tool_call>.*?</tool_call>', '', text, flags=re.DOTALL)
+        
+        # Remove any standalone JSON objects that look like tool calls
+        cleaned = re.sub(r'\{\s*"name"\s*:\s*"[^"]+"\s*,\s*"arguments"\s*:\s*\{[^}]*\}\s*\}', '', cleaned)
+        
+        # Clean up extra whitespace
+        cleaned = re.sub(r'\n{3,}', '\n\n', cleaned)  # Max 2 consecutive newlines
+        cleaned = cleaned.strip()
+        
+        return cleaned
     
     def _invoke_model(self, prompt: str, max_tokens: int, temperature: float):
         """Synchronous invoke to Bedrock"""
